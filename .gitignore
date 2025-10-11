@@ -97,3 +97,26 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# =========================
+# OS・エディタ関連
+# =========================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# JetBrains (Rider / IntelliJ / WebStorm / etc)
+.idea/
+*.iml
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+
