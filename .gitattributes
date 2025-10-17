@@ -64,3 +64,4 @@
 #font
 *.ttf filter=lfs diff=lfs merge=lfs -text
 *.otf filter=lfs diff=lfs merge=lfs -text
+Assets/fonts/SDF/*.asset filter=lfs diff=lfs merge=lfs -text
