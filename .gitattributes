@@ -60,3 +60,7 @@
 *.rns filter=lfs diff=lfs merge=lfs -text
 *.reason filter=lfs diff=lfs merge=lfs -text
 *.lxo filter=lfs diff=lfs merge=lfs -text
+
+#font
+*.ttf filter=lfs diff=lfs merge=lfs -text
+*.otf filter=lfs diff=lfs merge=lfs -text
