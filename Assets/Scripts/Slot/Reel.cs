@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class Reel : MonoBehaviour
 {
-    // private bool _isRotating = false;
-    
-    private bool _isRotating = true;
+    private bool _isRotating = false;
     private Transform _transform;
     private Vector3 _startEulerAngles;
 
@@ -27,7 +25,6 @@ public class Reel : MonoBehaviour
         if (_isRotating)
         {
             _transform.Rotate(0, rotationPerFrame * Time.deltaTime, 0);
-            Debug.Log(_transform.eulerAngles.x);
         }
     }
 
