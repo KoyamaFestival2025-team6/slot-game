@@ -4,9 +4,11 @@ public class Reel : MonoBehaviour
 {
     private bool _isRotating = false;
     private Transform _transform;
-    private Vector3 _startEulerAngles;
+    
+    private ZodiacSign _currentZodiacSign = ZodiacSign.Aries;
+    private float _accumulatedRotation = 0.0f;
 
-    [SerializeField] private float rotationPerFrame = 10.0f;
+    [SerializeField] private float speed = 12.0f;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,7 +26,17 @@ public class Reel : MonoBehaviour
     {
         if (_isRotating)
         {
-            _transform.Rotate(0, rotationPerFrame * Time.deltaTime, 0);
+            float rotationAmount = speed * Time.deltaTime;
+            _transform.Rotate(0, rotationAmount, 0);
+            
+            _accumulatedRotation += rotationAmount;
+            
+            if (_accumulatedRotation >= 360.0f / ZodiacSignExtensions.TotalSigns)
+            {
+                _currentZodiacSign = _currentZodiacSign.Next();
+                _accumulatedRotation -= 360.0f / ZodiacSignExtensions.TotalSigns;
+                Debug.Log($"次の星座: {_currentZodiacSign.GetJapaneseName()}");
+            }
         }
     }
 
