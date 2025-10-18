@@ -63,4 +63,21 @@ public static class ZodiacSignExtensions
             _ => "不明"
         };
     }
+
+
+    /// <summary>
+    /// 各星座についての得点を取得する
+    /// </summary>
+    public static int GetPoint(this ZodiacSign sign)
+    {
+        return sign switch
+        {
+            ZodiacSign.Sagittarius => 10000,
+            ZodiacSign.Capricorn => 500,
+            ZodiacSign.Leo => 500,
+            ZodiacSign.Virgo => 500,
+            ZodiacSign.Aries => 500,
+            _ => 100
+        };   
+    }
 }

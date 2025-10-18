@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Reel : MonoBehaviour
 {
-    private bool _isRotating = false;
+    public bool IsRotating {get;private set;}
     private Transform _transform;
     
     private ZodiacSign _currentZodiacSign = ZodiacSign.Aries;
@@ -24,7 +24,7 @@ public class Reel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_isRotating)
+        if (IsRotating)
         {
             float rotationAmount = speed * Time.deltaTime;
             _transform.Rotate(0, rotationAmount, 0);
@@ -35,18 +35,19 @@ public class Reel : MonoBehaviour
             {
                 _currentZodiacSign = _currentZodiacSign.Next();
                 _accumulatedRotation -= 360.0f / ZodiacSignExtensions.TotalSigns;
-                Debug.Log($"次の星座: {_currentZodiacSign.GetJapaneseName()}");
+                // Debug.Log($"次の星座: {_currentZodiacSign.GetJapaneseName()}");
             }
         }
     }
 
     public void StartRotating()
     {
-        _isRotating = true;
+        IsRotating = true;
     }
 
-    public void StopRotating()
+    public int StopRotating()
     {
-        _isRotating = false;
+        IsRotating = false;
+        return ZodiacSignExtensions.GetPoint(_currentZodiacSign);
     }
 }
