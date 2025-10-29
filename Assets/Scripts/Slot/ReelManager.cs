@@ -5,18 +5,18 @@ public class ReelManager : MonoBehaviour
 {
     bool _isRotating = false;
     
-    [SerializeField] private Button startButton;
+    [SerializeField] private Clickable3DObject startButton;
     
     [SerializeField] private const int RealCount = 3;
     
-    [SerializeField] private Button[] stopReelButtons;
+    [SerializeField] private Clickable3DObject[] stopReelButtons;
     [SerializeField] private Reel[] stopReelObjs;
     
-    private readonly Dictionary<Button, Reel> _reels = new Dictionary<Button, Reel>();
+    private readonly Dictionary<Clickable3DObject, Reel> _reels = new Dictionary<Clickable3DObject, Reel>();
     
     void Start()
     {
-        startButton.onClick.AddListener(StartRotating);
+        startButton.OnClicked += StartRotating;
 
         if (stopReelButtons.Length != RealCount || stopReelObjs.Length != RealCount)
         {
@@ -30,7 +30,7 @@ public class ReelManager : MonoBehaviour
         
         foreach (var reel in _reels)
         {
-            reel.Key.onClick.AddListener(() => StopRotating(reel.Value));
+            reel.Key.OnClicked += () => StopRotating(reel.Value);
         }
     }
 
