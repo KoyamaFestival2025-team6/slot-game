@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Reel : MonoBehaviour
@@ -45,9 +46,20 @@ public class Reel : MonoBehaviour
         IsRotating = true;
     }
 
-    public int StopRotating()
+    public List<ZodiacSign> StopRotating()
     {
         IsRotating = false;
-        return ZodiacSignExtensions.GetPoint(_currentZodiacSign);
+        List<ZodiacSign> zodiacSigns = new List<ZodiacSign>();
+        int totalSigns = (int)ZodiacSignExtensions.TotalSigns;
+        int currentIndex = (int)_currentZodiacSign;
+        
+        int previousIndex = (currentIndex - 1 + totalSigns) % totalSigns;
+        int nextIndex = (currentIndex + 1) % totalSigns;
+        
+        zodiacSigns.Add((ZodiacSign)previousIndex);
+        zodiacSigns.Add(_currentZodiacSign);
+        zodiacSigns.Add((ZodiacSign)nextIndex);
+        
+        return zodiacSigns;
     }
 }

@@ -14,6 +14,9 @@ public class ReelManager : MonoBehaviour
     
     private readonly Dictionary<Clickable3DObject, Reel> _reels = new Dictionary<Clickable3DObject, Reel>();
     
+    // 3x3の結果を格納する2次元配列
+    private ZodiacSign[,] _resultsGrid = new ZodiacSign[3, 3];
+    
     void Start()
     {
         startButton.OnClicked += StartRotating;
@@ -51,18 +54,80 @@ public class ReelManager : MonoBehaviour
         _isRotating = true;
     }
     
-    public void StopRotating(Reel reel)
+    /// <summary>
+    /// リールが1つ停止するたびに呼び出される
+    /// </summary>
+    /// <param name="stoppedReel">停止したReelオブジェクト</param>
+    public void StopRotating(Reel stoppedReel)
     {
-        GameManager.Instance.AddScore(reel.StopRotating());
+        // 1. 止まったリールの結果（3つのサインのリスト）を受け取る
+        List<ZodiacSign> columnResults = stoppedReel.StopRotating();
 
-        foreach (var reelObj in _reels)
+        // 2. このリールが何列目（0, 1, 2）かを特定する
+        //    辞書の「Value (stoppedReel)」から「Key (Clickable3DObject)」を逆引きする
+        int columnIndex = -1;
+        Clickable3DObject keyObject = null;
+
+        foreach (var pair in _reels)
         {
-            if (reelObj.Value.IsRotating)
+            if (pair.Value == stoppedReel)
             {
-                return; // まだリールがどれか一つでも回転していたらreturn
+                keyObject = pair.Key; // 該当する Key (Clickable3DObject) を見つける
+                break;
+            }
+        }
+
+        if (keyObject != null)
+        {
+            // 3. Key (Clickable3DObject) が持つ ColumnIndex を使う
+            columnIndex = keyObject.ColumnIndex; 
+        }
+        else
+        {
+            Debug.LogError("停止したリールが _reels 辞書に見つかりません！");
+            return;
+        }
+
+        // 4. グリッドの該当する「列」に結果を格納する
+        if (columnResults != null && columnResults.Count == 3)
+        {
+            _resultsGrid[0, columnIndex] = columnResults[0]; // 上段
+            _resultsGrid[1, columnIndex] = columnResults[1]; // 中段
+            _resultsGrid[2, columnIndex] = columnResults[2]; // 下段
+        }
+        else
+        {
+            Debug.LogError("リール " + columnIndex + " から3つの結果が返されませんでした。");
+        }
+
+        // 5. 他にまだ回転中のリールがあるかチェック
+        foreach (var pair in _reels)
+        {
+            if (pair.Value.IsRotating)
+            {
+                return; // まだ回転中のリールがあるので、ここで処理を終了
             }
         }
         
-        _isRotating = false; // リールがすべて回転を停止しているのでfalseにする
+        // 6. ↓↓↓ 全てのリールが停止した場合のみ、ここが実行される ↓↓↓
+        _isRotating = false; 
+
+        // 7. 新しいメソッドを呼び出し、スコア判定を開始する
+        ProcessSpinResults();
+    }
+
+    /// <summary>
+    /// 全てのリールが停止した後に呼び出され、スコア判定と結果処理を行う
+    /// </summary>
+    private void ProcessSpinResults()
+    {
+        Debug.Log("全てのリールが停止しました。スコア判定を開始します。");
+
+        // 完成した 3x3 グリッドを ScoreManager に渡す
+        GameManager.Instance.ReflectScore(_resultsGrid);
+
+        // TODO:
+        // - スピンボタンを再度押せるようにする
+        // - 獲得スコアの演出（エフェクト）を開始する
     }
 }
