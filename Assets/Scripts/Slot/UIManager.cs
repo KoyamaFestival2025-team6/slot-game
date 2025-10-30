@@ -6,10 +6,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject scoreTextUI;
     private TextMeshProUGUI _scoreText;
+
+    private UISceneName _currentScene = UISceneName.Title;
+    [SerializeField] private List<UIScene> rootUISceneObjects;
 
     [SerializeField] private Image beforeImage;
     [SerializeField] private Image SagittariusImage;
@@ -18,10 +22,91 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image VirgoImage;
     [SerializeField] private Image TaurusImage;
     
+    [SerializeField] private Button startButton;
+    [SerializeField] private Button goToGameButton1;
+    [SerializeField] private Button goToGameButton2;
+    [SerializeField] private Button goToTitleButton;
+    
+    [SerializeField] private CameraManager cameraManager;
+    
     private void Start()
     {
         _scoreText = scoreTextUI.GetComponent<TextMeshProUGUI>();
         GameManager.Instance.OnScoreChanged += UpdateScoreText;
+        
+        startButton.onClick.AddListener(() =>
+        {
+            _currentScene = UISceneName.Game;
+            foreach (var rootUI in rootUISceneObjects)
+            {
+                if (rootUI.GetName() == _currentScene)
+                {
+                    GameObject obj = rootUI.GetRootObject();
+                    obj.SetActive(true);
+                    cameraManager.ChangeGameCamera();
+                }
+                else
+                {
+                    GameObject obj = rootUI.GetRootObject();
+                    obj.SetActive(false);
+                }
+            }
+        });
+
+        goToGameButton1.onClick.AddListener(() =>
+        {
+            _currentScene = UISceneName.Game;
+            foreach (var rootUI in rootUISceneObjects)
+            {
+                if (rootUI.GetName() == _currentScene)
+                {
+                    GameObject obj = rootUI.GetRootObject();
+                    obj.SetActive(true);
+                }
+                else
+                {
+                    GameObject obj = rootUI.GetRootObject();
+                    obj.SetActive(false);   
+                }
+            }
+        });
+
+        goToGameButton2.onClick.AddListener(() =>
+        {
+            _currentScene = UISceneName.Game;
+            foreach (var rootUI in rootUISceneObjects)
+            {
+                if (rootUI.GetName() == _currentScene)
+                {
+                    GameObject obj = rootUI.GetRootObject();
+                }
+                else
+                {
+                    GameObject obj = rootUI.GetRootObject();
+                    obj.SetActive(false);  
+                }
+            }
+        });
+
+        goToTitleButton.onClick.AddListener(() =>
+        {
+            _currentScene = UISceneName.Title;
+            foreach (var rootUI in rootUISceneObjects)
+            {
+                if (rootUI.GetName() == _currentScene)
+                {
+                    GameObject obj = rootUI.GetRootObject();
+                    obj.SetActive(true);
+                    cameraManager.ChangeTitleCamera();
+                }
+                else
+                {
+                    GameObject obj = rootUI.GetRootObject();
+                    obj.SetActive(false);
+                }
+            }
+        });
+
     }
 
     private void Update()
@@ -33,6 +118,44 @@ public class UIManager : MonoBehaviour
             List<ZodiacSign> tmpList = new List<ZodiacSign>();
             tmpList.Add(ZodiacSign.Sagittarius);
             StartCoroutine(PlayHitFeedback(tmpList));
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (_currentScene == UISceneName.Game)
+            {
+                _currentScene = UISceneName.Pose;
+                foreach (var rootUI in rootUISceneObjects)
+                {
+                    if (rootUI.GetName() == _currentScene)
+                    {
+                        GameObject obj = rootUI.GetRootObject();
+                        obj.SetActive(true);
+                    }
+                    else
+                    {
+                        GameObject obj = rootUI.GetRootObject();
+                        obj.SetActive(false);
+                    }
+                }
+            }
+            else if (_currentScene == UISceneName.Pose)
+            {
+                _currentScene = UISceneName.Game;
+                foreach (var rootUI in rootUISceneObjects)
+                {
+                    if (rootUI.GetName() == _currentScene)
+                    {
+                        GameObject obj = rootUI.GetRootObject();
+                        obj.SetActive(true);
+                    }
+                    else
+                    {
+                        GameObject obj = rootUI.GetRootObject();
+                        obj.SetActive(false);
+                    }
+                }
+            }
         }
     }
 
