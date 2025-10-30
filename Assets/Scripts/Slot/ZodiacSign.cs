@@ -76,7 +76,7 @@ public static class ZodiacSignExtensions
             ZodiacSign.Capricorn => 500,
             ZodiacSign.Leo => 500,
             ZodiacSign.Virgo => 500,
-            ZodiacSign.Aries => 500,
+            ZodiacSign.Taurus => 500,
             _ => 100
         };   
     }

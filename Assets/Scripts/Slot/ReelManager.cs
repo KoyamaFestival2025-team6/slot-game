@@ -122,9 +122,24 @@ public class ReelManager : MonoBehaviour
     private void ProcessSpinResults()
     {
         Debug.Log("全てのリールが停止しました。スコア判定を開始します。");
+        
+        List<ZodiacSign> hitSigns = GameManager.Instance.ReflectScore(_resultsGrid);
 
-        // 完成した 3x3 グリッドを ScoreManager に渡す
-        GameManager.Instance.ReflectScore(_resultsGrid);
+        // 7. 当たった柄のリスト（hitSigns）を使って、次の処理を行う
+        if (hitSigns.Count > 0)
+        {
+            // 当たり（hitSigns リストに1つ以上の柄が入っている）
+            Debug.Log("当たった柄: " + string.Join(", ", hitSigns));
+
+            // TODO:
+            // - hitSigns リストの内容に基づいて、特別な演出（エフェクト）を開始する
+            // - （例: hitSigns[0] のシンボルを光らせる、など）
+        }
+        else
+        {
+            // ハズレ
+        }
+        
 
         // TODO:
         // - スピンボタンを再度押せるようにする
