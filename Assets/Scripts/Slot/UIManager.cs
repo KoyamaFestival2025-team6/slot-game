@@ -120,6 +120,7 @@ public class UIManager : MonoBehaviour
             StartCoroutine(PlayHitFeedback(tmpList));
         }
 
+        // Escキーを押すとメニュー画面に遷移
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (_currentScene == UISceneName.Game)
