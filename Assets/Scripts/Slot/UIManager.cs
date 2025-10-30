@@ -112,13 +112,13 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         // デバッグ用
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            // Enterキーが押された瞬間の処理
-            List<ZodiacSign> tmpList = new List<ZodiacSign>();
-            tmpList.Add(ZodiacSign.Sagittarius);
-            StartCoroutine(PlayHitFeedback(tmpList));
-        }
+        // if (Input.GetKeyDown(KeyCode.Return))
+        // {
+        //     // Enterキーが押された瞬間の処理
+        //     List<ZodiacSign> tmpList = new List<ZodiacSign>();
+        //     tmpList.Add(ZodiacSign.Sagittarius);
+        //     StartCoroutine(PlayHitFeedback(tmpList));
+        // }
 
         // Escキーを押すとメニュー画面に遷移
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -180,6 +180,12 @@ public class UIManager : MonoBehaviour
                 goodSign = zodiacSign;
                 maxScore = zodiacSign.GetPoint();
             }
+        }
+
+        if (!(goodSign == ZodiacSign.Taurus || goodSign == ZodiacSign.Virgo || goodSign == ZodiacSign.Leo ||
+              goodSign == ZodiacSign.Capricorn || goodSign == ZodiacSign.Sagittarius))
+        {
+            yield break; // これら以外の柄だったら演出なし
         }
         
         beforeImage.gameObject.SetActive(true);

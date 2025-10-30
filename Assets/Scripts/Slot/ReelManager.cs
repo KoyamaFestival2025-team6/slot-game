@@ -11,6 +11,7 @@ public class ReelManager : MonoBehaviour
     
     [SerializeField] private Clickable3DObject[] stopReelButtons;
     [SerializeField] private Reel[] stopReelObjs;
+    [SerializeField] private UIManager uiManager;
     
     private readonly Dictionary<Clickable3DObject, Reel> _reels = new Dictionary<Clickable3DObject, Reel>();
     
@@ -134,7 +135,7 @@ public class ReelManager : MonoBehaviour
         {
             // 当たり（hitSigns リストに1つ以上の柄が入っている）
             Debug.Log("当たった柄: " + string.Join(", ", hitSigns));
-
+            StartCoroutine(uiManager.PlayHitFeedback(hitSigns));
             // TODO:
             // - hitSigns リストの内容に基づいて、特別な演出（エフェクト）を開始する
             // - （例: hitSigns[0] のシンボルを光らせる、など）

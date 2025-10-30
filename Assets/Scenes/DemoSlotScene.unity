@@ -799,7 +799,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &613227516
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2665,6 +2665,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5130431403423108005, guid: c8b419a0ecd15724eaa24292e414c54a, type: 3}
+      propertyPath: uiManager
+      value: 
+      objectReference: {fileID: 165424613}
     - target: {fileID: 5145721972845762009, guid: c8b419a0ecd15724eaa24292e414c54a, type: 3}
       propertyPath: m_Name
       value: slot_v5
