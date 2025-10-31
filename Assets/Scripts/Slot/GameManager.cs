@@ -12,6 +12,8 @@ namespace Slot
         public event System.Action OnScoreChanged;
 
         public int Score { get; private set; } = 0;
+        
+        [SerializeField] Timer timer;
     
         void Awake()
         {
@@ -120,6 +122,11 @@ namespace Slot
                 return ZodiacSignExtensions.GetPoint(s1);
             }
             return 0;
+        }
+        
+        public Timer GetTimer()
+        {
+            return timer;
         }
     }
 

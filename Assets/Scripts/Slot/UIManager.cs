@@ -33,7 +33,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button goToTitleButton;
     
     [SerializeField] private CameraManager cameraManager;
-    [SerializeField] Timer timer;
     
     private void Start()
     {
@@ -131,7 +130,7 @@ public class UIManager : MonoBehaviour
             }
         });
 
-        timerText.text = timer.Time.ToString("00.00");
+        timerText.text = Slot.GameManager.Instance.GetTimer().Time.ToString("00.00");
     }
 
     private void Update()
@@ -199,6 +198,13 @@ public class UIManager : MonoBehaviour
                     }
                 }
             }
+        }
+        
+        // タイマーを更新する
+        if (_currentScene == UISceneName.Game || _currentScene == UISceneName.Pose)
+        {
+            // 毎フレーム、現在のタイマーの値を取得してテキストに設定する
+            timerText.text = Slot.GameManager.Instance.GetTimer().Time.ToString("00.00");
         }
     }
 

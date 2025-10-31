@@ -51,8 +51,13 @@ public class ReelManager : MonoBehaviour
         
     }
     
+    /// <summary>
+    /// 
+    /// </summary>
+    
     public void StartRotating()
     {
+        Slot.GameManager.Instance.GetTimer().StartTimer();
         foreach (var reel in _reels)
         {
             Reel tmp = reel.Value;

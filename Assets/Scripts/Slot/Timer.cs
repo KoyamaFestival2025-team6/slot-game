@@ -9,7 +9,7 @@ public class Timer : MonoBehaviour
     private bool _isCount = false;
     public float Time { get => _time; }
     
-    public event Action OnTimerEnd;
+    public event Action OnTimerEnd; // 時間切れを通知する
 
     void Awake()
     {
@@ -24,18 +24,21 @@ public class Timer : MonoBehaviour
         if (_time <= 0)
         {
             _time = 0;
+            _isCount = false; // ★ カウントダウンを停止する
+            OnTimerEnd?.Invoke(); // ★ 時間切れイベントをここで発行する
         }
     }
     
+    // タイマーを作動させる
     public void StartTimer()
     {
         _isCount = true;
     }
 
+    // タイマーをリセットさせる
     public void ResetTimer()
     {
         _time = timeLimit;
         _isCount = false;
-        OnTimerEnd?.Invoke();
     }
 }

@@ -339,7 +339,6 @@ MonoBehaviour:
   goToGameButton2: {fileID: 492179850}
   goToTitleButton: {fileID: 1445651183}
   cameraManager: {fileID: 1563024784}
-  timer: {fileID: 1480955755}
 --- !u!1 &209989860
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,6 +667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 401529369664cc6438ef6122c1758347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: {fileID: 1480955755}
 --- !u!1 &492179848
 GameObject:
   m_ObjectHideFlags: 0
