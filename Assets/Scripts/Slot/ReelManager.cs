@@ -128,7 +128,7 @@ public class ReelManager : MonoBehaviour
     {
         Debug.Log("全てのリールが停止しました。スコア判定を開始します。");
         
-        List<ZodiacSign> hitSigns = GameManager.Instance.ReflectScore(_resultsGrid);
+        List<ZodiacSign> hitSigns = Slot.GameManager.Instance.ReflectScore(_resultsGrid);
 
         // 7. 当たった柄のリスト（hitSigns）を使って、次の処理を行う
         if (hitSigns.Count > 0)

@@ -5,6 +5,7 @@ public enum UISceneName
     Title,
     Game,
     Pose,
+    Ranking,
 }
 
 [System.Serializable]

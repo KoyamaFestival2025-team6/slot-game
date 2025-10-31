@@ -5,12 +5,15 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using Slot;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject scoreTextUI;
     private TextMeshProUGUI _scoreText;
+    [SerializeField] private TextMeshProUGUI timerText;
+
 
     private UISceneName _currentScene = UISceneName.Title;
     [SerializeField] private List<UIScene> rootUISceneObjects;
@@ -23,16 +26,19 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image TaurusImage;
     
     [SerializeField] private Button startButton;
+    [SerializeField] private Button rankingButton;
+    
     [SerializeField] private Button goToGameButton1;
     [SerializeField] private Button goToGameButton2;
     [SerializeField] private Button goToTitleButton;
     
     [SerializeField] private CameraManager cameraManager;
+    [SerializeField] Timer timer;
     
     private void Start()
     {
         _scoreText = scoreTextUI.GetComponent<TextMeshProUGUI>();
-        GameManager.Instance.OnScoreChanged += UpdateScoreText;
+        Slot.GameManager.Instance.OnScoreChanged += UpdateScoreText;
         
         startButton.onClick.AddListener(() =>
         {
@@ -44,6 +50,24 @@ public class UIManager : MonoBehaviour
                     GameObject obj = rootUI.GetRootObject();
                     obj.SetActive(true);
                     cameraManager.ChangeGameCamera();
+                }
+                else
+                {
+                    GameObject obj = rootUI.GetRootObject();
+                    obj.SetActive(false);
+                }
+            }
+        });
+        
+        rankingButton.onClick.AddListener(() => 
+        {
+            _currentScene = UISceneName.Ranking;
+            foreach (var rootUI in rootUISceneObjects)
+            {
+                if (rootUI.GetName() == _currentScene)
+                {
+                    GameObject obj = rootUI.GetRootObject();
+                    obj.SetActive(true);
                 }
                 else
                 {
@@ -107,6 +131,7 @@ public class UIManager : MonoBehaviour
             }
         });
 
+        timerText.text = timer.Time.ToString("00.00");
     }
 
     private void Update()
@@ -156,6 +181,23 @@ public class UIManager : MonoBehaviour
                         obj.SetActive(false);
                     }
                 }
+            }else if (_currentScene == UISceneName.Ranking)
+            {
+                _currentScene = UISceneName.Title;
+                foreach (var rootUI in rootUISceneObjects)
+                {
+                    if (rootUI.GetName() == _currentScene)
+                    {
+                        GameObject obj = rootUI.GetRootObject();
+                        obj.SetActive(true);
+                        cameraManager.ChangeTitleCamera();
+                    }
+                    else
+                    {
+                        GameObject obj = rootUI.GetRootObject();
+                        obj.SetActive(false);
+                    }
+                }
             }
         }
     }
@@ -163,7 +205,7 @@ public class UIManager : MonoBehaviour
     public void UpdateScoreText()
     {
         if (_scoreText == null) Debug.LogError("Score text is null");
-        _scoreText.text = "Score : " + GameManager.Instance.Score;
+        _scoreText.text = "Score : " + Slot.GameManager.Instance.Score;
     }
 
     public IEnumerator PlayHitFeedback(List<ZodiacSign> zodiacSigns)
@@ -213,7 +255,6 @@ public class UIManager : MonoBehaviour
                 t = CapricornImage.gameObject.GetComponent<RectTransform>().DOAnchorPos(originPos, 0.3f).SetEase(Ease.InBack,3.0f);
                 yield return t.WaitForCompletion();
                 CapricornImage.gameObject.SetActive(false);
-                beforeImage.gameObject.SetActive(false);
                 break;
             case ZodiacSign.Leo:
                 LeoImage.gameObject.SetActive(true);
@@ -246,5 +287,6 @@ public class UIManager : MonoBehaviour
                 originPos = Vector3.zero;
                 break;
         }
+        beforeImage.gameObject.SetActive(false);
     }
 }
