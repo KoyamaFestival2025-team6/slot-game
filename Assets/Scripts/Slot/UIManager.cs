@@ -25,12 +25,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image VirgoImage;
     [SerializeField] private Image TaurusImage;
     
-    [SerializeField] private Button startButton;
-    [SerializeField] private Button rankingButton;
+    [SerializeField] private Button startButton; // Titleシーンのstartボタン
+    [SerializeField] private Button rankingButton; // Titleシーンのランキングボタン
     
-    [SerializeField] private Button goToGameButton1;
-    [SerializeField] private Button goToGameButton2;
-    [SerializeField] private Button goToTitleButton;
+    [SerializeField] private Button goToGameButton1;　// Poseシーンのゲーム再開ボタン1
+    [SerializeField] private Button goToGameButton2; // Poseシーンのゲーム再開ボタン2
+    [SerializeField] private Button goToGameButton3; // リザルト画面のゲーム再開ボタン
+    [SerializeField] private Button goToTitleButton; // Poseシーンのタイトルボタン
+    [SerializeField] private Button goToTitleButton2; // リザルト画面のタイトルボタン
+    
+    [SerializeField] private TextMeshProUGUI resultText; // リザルト画面のテキスト
     
     [SerializeField] private CameraManager cameraManager;
     
@@ -38,165 +42,79 @@ public class UIManager : MonoBehaviour
     {
         _scoreText = scoreTextUI.GetComponent<TextMeshProUGUI>();
         Slot.GameManager.Instance.OnScoreChanged += UpdateScoreText;
-        
+            
         startButton.onClick.AddListener(() =>
         {
-            _currentScene = UISceneName.Game;
-            foreach (var rootUI in rootUISceneObjects)
-            {
-                if (rootUI.GetName() == _currentScene)
-                {
-                    GameObject obj = rootUI.GetRootObject();
-                    obj.SetActive(true);
-                    cameraManager.ChangeGameCamera();
-                }
-                else
-                {
-                    GameObject obj = rootUI.GetRootObject();
-                    obj.SetActive(false);
-                }
-            }
+            ActivateUIScene(UISceneName.Game);
+            cameraManager.ChangeGameCamera();
         });
         
         rankingButton.onClick.AddListener(() => 
         {
-            _currentScene = UISceneName.Ranking;
-            foreach (var rootUI in rootUISceneObjects)
-            {
-                if (rootUI.GetName() == _currentScene)
-                {
-                    GameObject obj = rootUI.GetRootObject();
-                    obj.SetActive(true);
-                }
-                else
-                {
-                    GameObject obj = rootUI.GetRootObject();
-                    obj.SetActive(false);
-                }
-            }
+            ActivateUIScene(UISceneName.Ranking);
         });
 
         goToGameButton1.onClick.AddListener(() =>
         {
-            _currentScene = UISceneName.Game;
-            foreach (var rootUI in rootUISceneObjects)
-            {
-                if (rootUI.GetName() == _currentScene)
-                {
-                    GameObject obj = rootUI.GetRootObject();
-                    obj.SetActive(true);
-                }
-                else
-                {
-                    GameObject obj = rootUI.GetRootObject();
-                    obj.SetActive(false);   
-                }
-            }
+            ActivateUIScene(UISceneName.Game);
         });
 
         goToGameButton2.onClick.AddListener(() =>
         {
-            _currentScene = UISceneName.Game;
-            foreach (var rootUI in rootUISceneObjects)
-            {
-                if (rootUI.GetName() == _currentScene)
-                {
-                    GameObject obj = rootUI.GetRootObject();
-                }
-                else
-                {
-                    GameObject obj = rootUI.GetRootObject();
-                    obj.SetActive(false);  
-                }
-            }
+            ActivateUIScene(UISceneName.Game);
         });
-
+        
+        goToGameButton3.onClick.AddListener((() =>
+        {
+            ActivateUIScene(UISceneName.Game);
+        }));
+        
         goToTitleButton.onClick.AddListener(() =>
         {
-            _currentScene = UISceneName.Title;
-            foreach (var rootUI in rootUISceneObjects)
-            {
-                if (rootUI.GetName() == _currentScene)
-                {
-                    GameObject obj = rootUI.GetRootObject();
-                    obj.SetActive(true);
-                    cameraManager.ChangeTitleCamera();
-                }
-                else
-                {
-                    GameObject obj = rootUI.GetRootObject();
-                    obj.SetActive(false);
-                }
-            }
+            // 再度シーンの読み込み
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene(currentSceneName);
         });
 
+        goToTitleButton2.onClick.AddListener(() =>
+        {
+            // 再度シーンの読み込み
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene(currentSceneName);
+        });
+
+        // ゲーム終了時GameManagerから呼ばれる
+        Slot.GameManager.Instance.OnGameOver += () => 
+        {
+            Debug.Log("Game Over");
+            ActivateUIScene(UISceneName.Result);
+            if (resultText == null)
+            {
+                Debug.LogError("resultText is null");
+                return;
+            }
+            resultText.text = Slot.GameManager.Instance.Score.ToString();
+        };
+        
         timerText.text = Slot.GameManager.Instance.GetTimer().Time.ToString("00.00");
     }
 
     private void Update()
     {
-        // デバッグ用
-        // if (Input.GetKeyDown(KeyCode.Return))
-        // {
-        //     // Enterキーが押された瞬間の処理
-        //     List<ZodiacSign> tmpList = new List<ZodiacSign>();
-        //     tmpList.Add(ZodiacSign.Sagittarius);
-        //     StartCoroutine(PlayHitFeedback(tmpList));
-        // }
-
         // Escキーを押すとメニュー画面に遷移
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (_currentScene == UISceneName.Game)
             {
-                _currentScene = UISceneName.Pose;
-                foreach (var rootUI in rootUISceneObjects)
-                {
-                    if (rootUI.GetName() == _currentScene)
-                    {
-                        GameObject obj = rootUI.GetRootObject();
-                        obj.SetActive(true);
-                    }
-                    else
-                    {
-                        GameObject obj = rootUI.GetRootObject();
-                        obj.SetActive(false);
-                    }
-                }
+               ActivateUIScene(UISceneName.Pose);
             }
             else if (_currentScene == UISceneName.Pose)
             {
-                _currentScene = UISceneName.Game;
-                foreach (var rootUI in rootUISceneObjects)
-                {
-                    if (rootUI.GetName() == _currentScene)
-                    {
-                        GameObject obj = rootUI.GetRootObject();
-                        obj.SetActive(true);
-                    }
-                    else
-                    {
-                        GameObject obj = rootUI.GetRootObject();
-                        obj.SetActive(false);
-                    }
-                }
+                ActivateUIScene(UISceneName.Game);
             }else if (_currentScene == UISceneName.Ranking)
             {
-                _currentScene = UISceneName.Title;
-                foreach (var rootUI in rootUISceneObjects)
-                {
-                    if (rootUI.GetName() == _currentScene)
-                    {
-                        GameObject obj = rootUI.GetRootObject();
-                        obj.SetActive(true);
-                        cameraManager.ChangeTitleCamera();
-                    }
-                    else
-                    {
-                        GameObject obj = rootUI.GetRootObject();
-                        obj.SetActive(false);
-                    }
-                }
+                ActivateUIScene(UISceneName.Title);
+                cameraManager.ChangeTitleCamera();
             }
         }
         
@@ -294,5 +212,20 @@ public class UIManager : MonoBehaviour
                 break;
         }
         beforeImage.gameObject.SetActive(false);
+    }
+    
+    /// <summary>
+    /// 指定されたシーン名のUIをアクティブにし、それ以外を非アクティブにする
+    /// </summary>
+    private void ActivateUIScene(UISceneName newScene)
+    {
+        _currentScene = newScene;
+    
+        foreach (var rootUI in rootUISceneObjects)
+        {
+            // rootUI の名前が newScene と一致するかどうかで SetActive を切り替える
+            bool isActive = (rootUI.GetName() == newScene);
+            rootUI.GetRootObject().SetActive(isActive);
+        }
     }
 }

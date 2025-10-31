@@ -14,6 +14,9 @@ namespace Slot
         public int Score { get; private set; } = 0;
         
         [SerializeField] Timer timer;
+        [SerializeField] private RankingManager rankingManager;
+        
+        public event System.Action OnGameOver; // ゲーム終了時のイベント
     
         void Awake()
         {
@@ -24,7 +27,16 @@ namespace Slot
             }
 
             _instance = this;
-            DontDestroyOnLoad(gameObject); // シーン遷移後も残す
+            // DontDestroyOnLoad(gameObject); // シーン遷移後も残す
+
+            timer.OnTimerEnd += MoveGameOver;
+        }
+        
+        // ゲーム画面 -> リザルト画面
+        private void MoveGameOver()
+        {
+            OnGameOver?.Invoke();
+            rankingManager.AddNewScore(Score);
         }
 
         /// <summary>
