@@ -14,6 +14,8 @@ public class Timer : MonoBehaviour
     void Awake()
     {
         ResetTimer();
+        Slot.GameManager.Instance.OnStart += StartTimer;
+        Slot.GameManager.Instance.OnStop += StopTimer;
     }
     
     void Update()
@@ -29,10 +31,17 @@ public class Timer : MonoBehaviour
         }
     }
     
+    
     // タイマーを作動させる
     public void StartTimer()
     {
         _isCount = true;
+    }
+    
+    // タイマーを停止させる
+    public void StopTimer()
+    {
+        _isCount = false;
     }
 
     // タイマーをリセットさせる

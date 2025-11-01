@@ -38,6 +38,8 @@ public class UIManager : MonoBehaviour
     
     [SerializeField] private CameraManager cameraManager;
     
+    [SerializeField] Timer timer;
+    
     private void Start()
     {
         _scoreText = scoreTextUI.GetComponent<TextMeshProUGUI>();
@@ -57,11 +59,15 @@ public class UIManager : MonoBehaviour
         goToGameButton1.onClick.AddListener(() =>
         {
             ActivateUIScene(UISceneName.Game);
+            Slot.GameManager.Instance.isNotAddPoints = false;
+            Slot.GameManager.Instance.StartGame();
         });
 
         goToGameButton2.onClick.AddListener(() =>
         {
             ActivateUIScene(UISceneName.Game);
+            Slot.GameManager.Instance.isNotAddPoints = false;
+            Slot.GameManager.Instance.StartGame();
         });
         
         goToGameButton3.onClick.AddListener((() =>
@@ -107,10 +113,13 @@ public class UIManager : MonoBehaviour
             if (_currentScene == UISceneName.Game)
             {
                ActivateUIScene(UISceneName.Pose);
+               Slot.GameManager.Instance.isNotAddPoints = true;
+               Slot.GameManager.Instance.StopGame();
             }
             else if (_currentScene == UISceneName.Pose)
             {
                 ActivateUIScene(UISceneName.Game);
+                Slot.GameManager.Instance.StartGame();
             }else if (_currentScene == UISceneName.Ranking)
             {
                 ActivateUIScene(UISceneName.Title);
@@ -153,6 +162,7 @@ public class UIManager : MonoBehaviour
         {
             yield break; // これら以外の柄だったら演出なし
         }
+        if(Slot.GameManager.Instance.isNotAddPoints) yield break; // スコアを反映させない場合は演出を出させない
         
         beforeImage.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.5f);

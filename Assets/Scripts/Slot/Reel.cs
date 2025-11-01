@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System; // Action (イベント) を使うために必要
+using System;
+using NUnit.Framework.Constraints; // Action (イベント) を使うために必要
 
 public class Reel : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class Reel : MonoBehaviour
     
     private ZodiacSign _currentZodiacSign = ZodiacSign.Aries;
     private float _accumulatedRotation = 0.0f;
-
+    
     [SerializeField] private float speed = 12.0f;
 
     // --- ▼ 修正点 1: 必要な変数を追加 ▼ ---
@@ -45,6 +46,9 @@ public class Reel : MonoBehaviour
             DEGREES_PER_SIGN = 30.0f; // フォールバック
             Debug.LogError("ZodiacSignExtensions.TotalSigns が 0 です。");
         }
+        
+        Slot.GameManager.Instance.OnStart += StartRotating;
+        Slot.GameManager.Instance.OnStop += RequestStop;
     }
 
     void Update()

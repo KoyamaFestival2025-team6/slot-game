@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace Slot
 {
@@ -8,10 +9,15 @@ namespace Slot
     {
         private static GameManager _instance;
         public static GameManager Instance => _instance;
-    
+
+        public event System.Action OnStart;
+        public event System.Action OnStop;
+        public event System.Action OnReset;
         public event System.Action OnScoreChanged;
 
         public int Score { get; private set; } = 0;
+        public bool isNotAddPoints = false;
+
         
         [SerializeField] Timer timer;
         [SerializeField] private RankingManager rankingManager;
@@ -30,6 +36,16 @@ namespace Slot
             // DontDestroyOnLoad(gameObject); // シーン遷移後も残す
 
             timer.OnTimerEnd += MoveGameOver;
+        }
+        
+        public void StartGame()
+        {
+            OnStart?.Invoke();
+        }
+
+        public void StopGame()
+        {
+            OnStop?.Invoke();
         }
         
         // ゲーム画面 -> リザルト画面
@@ -107,7 +123,14 @@ namespace Slot
             }
 
             // 4. 最終スコアを反映
-            Score += totalAddScore;
+            if (isNotAddPoints)
+            {
+                Score += 0;
+            }
+            else
+            {
+                Score += totalAddScore;
+            }
             OnScoreChanged?.Invoke();
 
             // 5. 最終ログ
