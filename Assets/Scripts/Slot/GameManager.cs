@@ -3,10 +3,18 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
+public enum Difficulty
+{
+    Easy,
+    Normal,
+    Hard,
+}
 namespace Slot
 {
     public class GameManager : MonoBehaviour
     {
+        public static Difficulty difficulty = Difficulty.Normal;
+        
         private static GameManager _instance;
         public static GameManager Instance => _instance;
 

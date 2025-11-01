@@ -10,8 +10,8 @@ public class Reel : MonoBehaviour
     
     private ZodiacSign _currentZodiacSign = ZodiacSign.Aries;
     private float _accumulatedRotation = 0.0f;
-    
-    [SerializeField] private float speed = 12.0f;
+
+    private float speed;
 
     // --- ▼ 修正点 1: 必要な変数を追加 ▼ ---
 
@@ -53,6 +53,18 @@ public class Reel : MonoBehaviour
 
     void Update()
     {
+        if (Slot.GameManager.difficulty == Difficulty.Easy)
+        {
+            speed = 150.0f;
+        }else if (Slot.GameManager.difficulty == Difficulty.Normal)
+        {
+            speed = 300.0f;
+        }
+        else
+        {
+            speed = 400.0f;
+        }
+        
         if (!IsRotating) return; // 回転してなければ何もしない
 
         float rotationAmount = speed * Time.deltaTime;

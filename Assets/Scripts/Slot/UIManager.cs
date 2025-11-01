@@ -33,6 +33,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button goToGameButton3; // リザルト画面のゲーム再開ボタン
     [SerializeField] private Button goToTitleButton; // Poseシーンのタイトルボタン
     [SerializeField] private Button goToTitleButton2; // リザルト画面のタイトルボタン
+
+    [SerializeField] private Button easyButton;
+    [SerializeField] private Button normalButton;
+    [SerializeField] private Button hardButton;
     
     [SerializeField] private TextMeshProUGUI resultText; // リザルト画面のテキスト
     
@@ -44,6 +48,8 @@ public class UIManager : MonoBehaviour
     {
         _scoreText = scoreTextUI.GetComponent<TextMeshProUGUI>();
         Slot.GameManager.Instance.OnScoreChanged += UpdateScoreText;
+
+        normalButton.gameObject.GetComponent<Image>().color = Color.red;
             
         startButton.onClick.AddListener(() =>
         {
@@ -88,6 +94,30 @@ public class UIManager : MonoBehaviour
             string currentSceneName = SceneManager.GetActiveScene().name;
             SceneManager.LoadScene(currentSceneName);
         });
+        
+        easyButton.onClick.AddListener(() =>
+        {
+            Slot.GameManager.difficulty = Difficulty.Easy;
+            easyButton.gameObject.GetComponent<Image>().color = Color.red;
+            normalButton.gameObject.GetComponent<Image>().color = Color.white;
+            hardButton.gameObject.GetComponent<Image>().color = Color.white;
+        });
+        
+        normalButton.onClick.AddListener(() =>
+        {
+            Slot.GameManager.difficulty = Difficulty.Normal;
+            easyButton.gameObject.GetComponent<Image>().color = Color.white;
+            normalButton.gameObject.GetComponent<Image>().color = Color.red;
+            hardButton.gameObject.GetComponent<Image>().color = Color.white;
+        });
+        
+        hardButton.onClick.AddListener((() =>
+        {
+            Slot.GameManager.difficulty = Difficulty.Hard;
+            easyButton.gameObject.GetComponent<Image>().color = Color.white;
+            normalButton.gameObject.GetComponent<Image>().color = Color.white;
+            hardButton.gameObject.GetComponent<Image>().color = Color.red;
+        }));
 
         // ゲーム終了時GameManagerから呼ばれる
         Slot.GameManager.Instance.OnGameOver += () => 
