@@ -48,9 +48,10 @@ public class Clickable3DObject : MonoBehaviour, IPointerDownHandler
         OnClicked?.Invoke(); 
     }
 
-    private IEnumerator AnimatePress()
+    public IEnumerator AnimatePress()
     {
         isAnimating = true;
+        Debug.Log("あにめーーーーーーーーーーーーーーーーーーーーしょん");
 
         // --- 1. 沈む ---
         Vector3 pressedPosition = originalLocalPosition - new Vector3(0, pressDepth, 0); 

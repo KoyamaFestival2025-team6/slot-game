@@ -33,6 +33,8 @@ namespace Slot
         [SerializeField] private RankingManager rankingManager;
         [SerializeField] UIManager uiManager;
         [SerializeField] ReelManager reelManager;
+
+        [SerializeField] private Clickable3DObject startButton;
         
         public event System.Action OnGameOver; // ゲーム終了時のイベント
     
@@ -59,9 +61,10 @@ namespace Slot
                     bool isStopping = reelManager.StopLeftmostSpinningReel();
                     if (!isStopping)
                     {
-                        uiManager.ActivateUIScene(UISceneName.Game);
-                        Slot.GameManager.Instance.isNotAddPoints = false;
-                        Slot.GameManager.Instance.StartGame();
+                        reelManager.StartRotating();
+                        AudioSource source = startButton.gameObject.GetComponent<AudioSource>();
+                        source.Play();
+                        StartCoroutine(startButton.AnimatePress());
                     }
                 }
             }

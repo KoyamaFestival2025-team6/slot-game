@@ -805,6 +805,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 315090604}
   m_CullTransparentMesh: 1
+--- !u!114 &317752422 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 295093381755284633, guid: fdd97cd2fc32117498693237d5dd33ee, type: 3}
+  m_PrefabInstance: {fileID: 3254678529831700694}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dfc4a0b081f0d347b2bf7d00561cd11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &323282508 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1088877148185435693, guid: f18aaafe342da8a49b56024aeb2800fb, type: 3}
@@ -1249,6 +1260,9 @@ MonoBehaviour:
   isNotAddPoints: 0
   timer: {fileID: 1480955755}
   rankingManager: {fileID: 1244023905}
+  uiManager: {fileID: 165424613}
+  reelManager: {fileID: 317752422}
+  startButton: {fileID: 2022675400}
 --- !u!1 &492179848
 GameObject:
   m_ObjectHideFlags: 0
@@ -5197,6 +5211,17 @@ MonoBehaviour:
   - {fileID: 1373251491}
   - {fileID: 1373251490}
   - {fileID: 1373251489}
+--- !u!114 &2022675400 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6429599859317171959, guid: fdd97cd2fc32117498693237d5dd33ee, type: 3}
+  m_PrefabInstance: {fileID: 3254678529831700694}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eef24db4c998031449f0b1910eb71518, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2079527082
 GameObject:
   m_ObjectHideFlags: 0
@@ -5543,6 +5568,14 @@ PrefabInstance:
     - target: {fileID: 5070912782406331587, guid: fdd97cd2fc32117498693237d5dd33ee, type: 3}
       propertyPath: m_Name
       value: slot_v8 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103196732125779341, guid: fdd97cd2fc32117498693237d5dd33ee, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: d267dab44b5d6414396fc5d5e7721777, type: 3}
+    - target: {fileID: 5103196732125779341, guid: fdd97cd2fc32117498693237d5dd33ee, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5554153178773157497, guid: fdd97cd2fc32117498693237d5dd33ee, type: 3}
       propertyPath: m_LocalPosition.x

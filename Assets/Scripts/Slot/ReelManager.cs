@@ -208,6 +208,7 @@ public class ReelManager : MonoBehaviour
                     if (audioSource != null)
                     {
                         audioSource.Play();
+                        StartCoroutine(obj.AnimatePress());
                     }
                 }
                 currentReel.RequestStop();
