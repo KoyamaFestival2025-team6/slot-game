@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
@@ -174,9 +175,49 @@ public class ReelManager : MonoBehaviour
             // ハズレ
         }
         
-
         // TODO:
         // - スピンボタンを再度押せるようにする
         // - 獲得スコアの演出（エフェクト）を開始する
+    }
+    
+    /// <summary>
+    /// 現在回転しているリールのうち、最も左側（インデックスが最小）のリールの
+    /// 停止「要求」を出します。
+    /// </summary>
+    public bool StopLeftmostSpinningReel()
+    {
+        // stopReelObjs[0] (左), [1] (中), [2] (右) の順にチェックします。
+        // この配列は Start() で使ったものと同じです。
+        
+        for (int i = 0; i < stopReelObjs.Length; i++)
+        {
+            Reel currentReel = stopReelObjs[i];
+
+            // このリールが null でなく、かつ IsRotating が true か確認
+            if (currentReel != null && currentReel.IsRotating)
+            {
+                // 回転中のリールを最初に見つけたら（それが一番左）
+                
+                Debug.Log($"[ReelManager] 左から {i} 番目（一番左）の回転中リールに停止要求を出します。");
+                
+                // 停止要求を出す
+                Clickable3DObject obj = _reels.FirstOrDefault(x => x.Value == currentReel).Key;
+                if (obj != null)
+                {
+                    var audioSource = obj.GetComponent<AudioSource>();
+                    if (audioSource != null)
+                    {
+                        audioSource.Play();
+                    }
+                }
+                currentReel.RequestStop();
+                
+                // 目的（一番左の1つだけを止める）は達成したので、ループを抜ける
+                return true;
+            }
+        }
+        
+        Debug.Log("[ReelManager] 停止要求：すべて停止済みのため false を返します。");
+        return false;
     }
 }

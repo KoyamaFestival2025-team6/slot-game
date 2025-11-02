@@ -262,7 +262,7 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// 指定されたシーン名のUIをアクティブにし、それ以外を非アクティブにする
     /// </summary>
-    private void ActivateUIScene(UISceneName newScene)
+    public void ActivateUIScene(UISceneName newScene)
     {
         _currentScene = newScene;
     
@@ -272,5 +272,10 @@ public class UIManager : MonoBehaviour
             bool isActive = (rootUI.GetName() == newScene);
             rootUI.GetRootObject().SetActive(isActive);
         }
+    }
+    
+    public UISceneName GetCurrentUISceneName()
+    {
+        return _currentScene;
     }
 }

@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+
 using UnityEngine.Rendering.Universal;
 
 public enum Difficulty
@@ -29,6 +31,8 @@ namespace Slot
         
         [SerializeField] Timer timer;
         [SerializeField] private RankingManager rankingManager;
+        [SerializeField] UIManager uiManager;
+        [SerializeField] ReelManager reelManager;
         
         public event System.Action OnGameOver; // ゲーム終了時のイベント
     
@@ -45,7 +49,24 @@ namespace Slot
 
             timer.OnTimerEnd += MoveGameOver;
         }
-        
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (uiManager.GetCurrentUISceneName() == UISceneName.Game)
+                {
+                    bool isStopping = reelManager.StopLeftmostSpinningReel();
+                    if (!isStopping)
+                    {
+                        uiManager.ActivateUIScene(UISceneName.Game);
+                        Slot.GameManager.Instance.isNotAddPoints = false;
+                        Slot.GameManager.Instance.StartGame();
+                    }
+                }
+            }
+        }
+
         public void StartGame()
         {
             OnStart?.Invoke();
