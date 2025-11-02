@@ -198,6 +198,7 @@ public class UIManager : MonoBehaviour
         }
         if(Slot.GameManager.Instance.isNotAddPoints) yield break; // スコアを反映させない場合は演出を出させない
         
+        
         beforeImage.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.5f);
 
@@ -242,7 +243,7 @@ public class UIManager : MonoBehaviour
                 yield return t.WaitForCompletion();
                 VirgoImage.gameObject.SetActive(false);
                 break;
-            case ZodiacSign.Aries:
+            case ZodiacSign.Taurus:
                 TaurusImage.gameObject.SetActive(true);
                 originPos = TaurusImage.gameObject.GetComponent<RectTransform>().anchoredPosition;
                 TaurusImage.gameObject.GetComponent<RectTransform>().DOAnchorPos(Vector3.zero, 0.3f).SetEase(Ease.OutBack);
