@@ -171,6 +171,17 @@ namespace Slot
         {
             return timer;
         }
+        
+        public void ResetTimer()
+        {
+            timer.ResetTimer();
+        }
+
+        public void ResetScore()
+        {
+            Score = 0;
+            OnScoreChanged?.Invoke();
+        }
     }
 
 }

@@ -35,6 +35,10 @@ public class Timer : MonoBehaviour
     // タイマーを作動させる
     public void StartTimer()
     {
+        if (timeLimit <= 0)
+        {
+            ResetTimer();
+        }
         _isCount = true;
     }
     

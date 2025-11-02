@@ -78,7 +78,11 @@ public class UIManager : MonoBehaviour
         
         goToGameButton3.onClick.AddListener((() =>
         {
+            timer.ResetTimer();
+            Slot.GameManager.Instance.ResetScore();
+            Debug.Log("Game Start");
             ActivateUIScene(UISceneName.Game);
+            Slot.GameManager.Instance.StartGame();
         }));
         
         goToTitleButton.onClick.AddListener(() =>
