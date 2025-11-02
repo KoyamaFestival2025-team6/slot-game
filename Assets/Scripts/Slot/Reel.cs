@@ -164,17 +164,18 @@ public class Reel : MonoBehaviour
         }
 
         int totalSigns = symbolOrder.Count;
+        int currentSignIndex = (_currentSymbolIndex + 1) % totalSigns;
         
         // C# の % 演算子は負の値（例: 0 - 1）で期待通りに動かない場合があるため、
         // (totalSigns) を足してから剰余を計算し、インデックスが必ず正になるようにします。
         
         // 前のインデックス
-        int previousIndex = (_currentSymbolIndex - 1 + totalSigns) % totalSigns;
+        int previousIndex = (currentSignIndex + 1 + totalSigns) % totalSigns;
         // 次のインデックス
-        int nextIndex = (_currentSymbolIndex + 1) % totalSigns;
+        int nextIndex = (currentSignIndex - 1 + totalSigns) % totalSigns;
         
         zodiacSigns.Add(symbolOrder[previousIndex]);
-        zodiacSigns.Add(symbolOrder[_currentSymbolIndex]); // これが中央の停止シンボル
+        zodiacSigns.Add(symbolOrder[currentSignIndex]); // これが中央の停止シンボル
         zodiacSigns.Add(symbolOrder[nextIndex]);
         
         return zodiacSigns;

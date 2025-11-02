@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 public class ReelManager : MonoBehaviour
@@ -132,6 +133,29 @@ public class ReelManager : MonoBehaviour
     private void ProcessSpinResults()
     {
         Debug.Log("全てのリールが停止しました。スコア判定を開始します。");
+        // --- ▼▼▼ ここにデバッグログを追加 ▼▼▼ ---
+        // C# (Unity) でのプログラミング経験がおありとのことですので、
+        // ログの整形には StringBuilder を使うのが効率的です。
+        StringBuilder gridLog = new StringBuilder();
+        gridLog.AppendLine("--- 判定グリッド内容 (日本語名) ---");
+    
+        // 3x3 のグリッドを [行, 列] でループ
+        for (int row = 0; row < 3; row++)
+        {
+            // 各シンボルを日本語名に変換
+            string rowStr = string.Format("[ {0} | {1} | {2} ]",
+                ZodiacSignExtensions.GetJapaneseName(_resultsGrid[row, 0]), // [行, 列0]
+                ZodiacSignExtensions.GetJapaneseName(_resultsGrid[row, 1]), // [行, 列1]
+                ZodiacSignExtensions.GetJapaneseName(_resultsGrid[row, 2])  // [行, 列2]
+            );
+        
+            // "行 0: [ おひつじ座 | おうし座 | ふたご座 ]" のような形式で追加
+            gridLog.AppendLine($"行 {row}: {rowStr}");
+        }
+    
+        // 組み立てた文字列をDebug.Logで一括表示
+        Debug.Log(gridLog.ToString());
+        // --- ▲▲▲ デバッグログ追加 ▲▲▲ ---
         
         List<ZodiacSign> hitSigns = Slot.GameManager.Instance.ReflectScore(_resultsGrid);
 
