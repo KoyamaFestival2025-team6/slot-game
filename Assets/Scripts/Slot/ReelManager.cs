@@ -165,6 +165,8 @@ public class ReelManager : MonoBehaviour
         {
             // 当たり（hitSigns リストに1つ以上の柄が入っている）
             Debug.Log("当たった柄: " + string.Join(", ", hitSigns));
+            AudioSource audioSource = this.gameObject.GetComponent<AudioSource>();
+            audioSource.Play();
             StartCoroutine(uiManager.PlayHitFeedback(hitSigns));
             // TODO:
             // - hitSigns リストの内容に基づいて、特別な演出（エフェクト）を開始する
